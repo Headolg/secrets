@@ -30,8 +30,13 @@ app.use(passport.session());
 /////Connect to MongoDB with Mongoose
 main().catch((err) => console.log(err));
 async function main() {
-  await mongoose.connect(process.env.MONGODB);
-  console.log("Successfully connected to Database");
+  await mongoose.connect(process.env.MONGODB).then(function() {
+    console.log("Successfully connected to Database");
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000.");
+    });
+  });
+  
 }
 
 const userSchema = new mongoose.Schema({
@@ -179,6 +184,4 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000.");
-});
+
